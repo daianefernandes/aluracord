@@ -1,36 +1,8 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import appConfig from "../config.json";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: "Open Sans", sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  );
-}
 
 function Title(props) {
   const Tag = props.tag || "h1";
@@ -49,11 +21,11 @@ function Title(props) {
 }
 
 function HomePage() {
-  const username = "daianefernandes";
+  const [username, setUsername] = useState('daianefernandes');
+  const roteamento = useRouter();
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: "flex",
@@ -78,7 +50,7 @@ function HomePage() {
             },
             width: "100%",
             maxWidth: "700px",
-            borderRadius: "5px",
+            borderRadius: "40px 0px 40px 0px",
             padding: "32px",
             margin: "16px",
             boxShadow: "0 2px 10px 0 rgb(0 0 0 / 20%)",
@@ -88,6 +60,10 @@ function HomePage() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function(event) {
+              event.preventDefault();
+              roteamento.push('/chat');
+            }}
             styleSheet={{
               display: "flex",
               flexDirection: "column",
@@ -98,7 +74,7 @@ function HomePage() {
               marginBottom: "32px",
             }}
           >
-            <Title tag="h2">Boas vindas de volta!</Title>
+            <Title tag="h2">Inicie seu atendimento emergencial  </Title>
             <Text
               variant="body3"
               styleSheet={{
@@ -110,6 +86,11 @@ function HomePage() {
             </Text>
 
             <TextField
+            value={username}
+            onChange={function(event) {
+              const valor = event.target.value;
+              setUsername(valor);
+            }}
               fullWidth
               textFieldColors={{
                 neutral: {
